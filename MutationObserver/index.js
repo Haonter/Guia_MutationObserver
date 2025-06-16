@@ -3,6 +3,18 @@
  * 
  * Este archivo contiene dos ejercicios prácticos para entender
  * cómo funciona MutationObserver y sus diferentes tipos de observación.
+ * 
+ * ¿Que es MutationObserver?
+ * MutationObserver es una Web API que permite observar cambios en el DOM de una página web.
+ * Es útil para detectar modificaciones en la estructura del documento, atributos de elementos,
+ * y cambios en el contenido de texto.
+ * 
+ * Es una alternativa moderna y más eficiente a los eventos tradicionales como
+ * DOMSubtreeModified, DOMNodeInserted, y DOMNodeRemoved.
+ * 
+ * Los dos ejercicios a continuación muestran cómo configurar observadores
+ * para detectar cambios en nodos hijos (childList) y cambios en atributos (attributes).
+ * 
  */
 
 // ===================================================================
