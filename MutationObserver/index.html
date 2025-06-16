@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MutationObserver - Ejemplos Educativos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1f2937'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">🔍 MutationObserver</h1>
+            <p class="text-xl text-gray-600">Ejemplos prácticos para entender cómo detectar cambios en el DOM</p>
+            <div class="bg-blue-100 border-l-4 border-blue-500 p-4 mt-6 text-left">
+                <p class="text-blue-700">
+                    <strong>MutationObserver</strong> es una API que permite observar cambios en el DOM de manera eficiente.
+                    Es mucho mejor que los eventos antiguos como DOMSubtreeModified.
+                </p>
+            </div>
+        </div>
+
+        <!-- Ejercicio 1: Detectar elementos agregados -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                📝 Ejercicio 1: Detectar elementos agregados
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Panel de Control -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Panel de Control</h3>
+                    
+                    <div class="space-y-3">
+                        <button 
+                            id="agregarElemento" 
+                            class="w-full bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            ➕ Agregar Elemento
+                        </button>
+                        
+                        <button 
+                            id="eliminarElemento" 
+                            class="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            🗑️ Eliminar Último Elemento
+                        </button>
+                        
+                        <button 
+                            id="modificarTexto" 
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            ✏️ Modificar Texto del Último
+                        </button>
+                    </div>
+
+                    <!-- Log de eventos -->
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-gray-700 mb-2">📋 Log de Eventos Detectados:</h4>
+                        <div id="logEventos" class="bg-gray-100 p-4 rounded-lg h-64 overflow-y-auto text-sm font-mono">
+                            <!-- Los eventos se mostrarán aquí -->
+                        </div>
+                        <button 
+                            id="limpiarLog" 
+                            class="mt-2 text-sm bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                            🧹 Limpiar Log
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Área de Contenido Observado -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">🎯 Área Observada</h3>
+                    <div 
+                        id="contenedorObservado" 
+                        class="border-2 border-dashed border-gray-300 p-6 rounded-lg min-h-64 bg-gray-50">
+                        <p class="text-gray-500 text-center">Los elementos aparecerán aquí...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejercicio 2: Detectar cambios en atributos -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                🎨 Ejercicio 2: Detectar cambios en atributos
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Panel de Control -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Panel de Control</h3>
+                    
+                    <div class="space-y-3">
+                        <button 
+                            id="cambiarColor" 
+                            class="w-full bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            🎨 Cambiar Color de Fondo
+                        </button>
+                        
+                        <button 
+                            id="cambiarClase" 
+                            class="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            📐 Cambiar Tamaño (Clase CSS)
+                        </button>
+                        
+                        <button 
+                            id="cambiarEstilo" 
+                            class="w-full bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            ✨ Cambiar Estilo Inline
+                        </button>
+
+                        <input 
+                            id="nuevoTexto" 
+                            type="text" 
+                            placeholder="Escribe nuevo texto..." 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        
+                        <button 
+                            id="cambiarTextoInput" 
+                            class="w-full bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            💬 Cambiar Texto
+                        </button>
+                    </div>
+
+                    <!-- Log de cambios de atributos -->
+                    <div class="mt-6">
+                        <h4 class="font-semibold text-gray-700 mb-2">📋 Log de Cambios de Atributos:</h4>
+                        <div id="logAtributos" class="bg-gray-100 p-4 rounded-lg h-64 overflow-y-auto text-sm font-mono">
+                            <!-- Los cambios se mostrarán aquí -->
+                        </div>
+                        <button 
+                            id="limpiarLogAtributos" 
+                            class="mt-2 text-sm bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                            🧹 Limpiar Log
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Elemento que será modificado -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">🎯 Elemento Observado</h3>
+                    <div class="border-2 border-dashed border-gray-300 p-6 rounded-lg">
+                        <div 
+                            id="elementoObservado" 
+                            class="bg-blue-200 p-8 rounded-lg text-center font-semibold text-gray-800 transition-all duration-300">
+                            ¡Soy un elemento observado! 🎯
+                            <br>
+                            <span class="text-sm text-gray-600">Mis atributos están siendo monitoreados</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información técnica -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-8">
+            <h2 class="text-2xl font-bold mb-4">💡 ¿Qué está pasando?</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Ejercicio 1 - childList</h3>
+                    <p class="text-blue-100">
+                        Observa cambios en los nodos hijos: cuando se agregan o eliminan elementos.
+                        Perfecto para detectar contenido dinámico.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Ejercicio 2 - attributes</h3>
+                    <p class="text-blue-100">
+                        Observa cambios en los atributos: class, style, id, etc.
+                        Útil para detectar cambios de estado visual.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-gray-500">
+            <p>🚀 Creado para entender MutationObserver - Abre la consola para ver más detalles</p>
+        </div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script src="index.js"></script>
+</body>
+</html>
